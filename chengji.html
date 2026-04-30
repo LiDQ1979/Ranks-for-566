@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>成绩排行榜</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        tr.highlight {
+            background-color: #ffff99;
+        }
+    </style>
+</head>
+<body>
+
+<h2>成绩排行榜</h2>
+
+<label>输入你的ID：</label>
+<input type="text" id="userId" oninput="highlightRow()">
+
+<table id="scoreTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年级</th>
+            <th>语文</th>
+            <th>数学</th>
+            <th>英语</th>
+            <th>物理</th>
+            <th>化学</th>
+            <th>道法</th>
+            <th>历史</th>
+            <th>总分</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>001</td>
+            <td>张三</td>
+            <td>高一</td>
+            <td>85</td>
+            <td>90</td>
+            <td>88</td>
+            <td>92</td>
+            <td>81</td>
+            <td>87</td>
+            <td>100</td>
+            <td>623</td>
+        </tr>
+        <tr>
+            <td>002</td>
+            <td>李四</td>
+            <td>高一</td>
+            <td>78</td>
+            <td>85</td>
+            <td>80</td>
+            <td>70</td>
+            <td>90</td>
+            <td>88</td>
+            <td>100</td>
+            <td>591</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<button onclick="exportToExcel()">导出Excel</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+<script>
+function highlightRow() {
+    const userId = document.getElementById('userId').value;
+    const rows = document.querySelectorAll('#scoreTable tbody tr');
+
+    rows.forEach(row => {
+        row.classList.remove('highlight');
+        if (row.children[0].innerText === userId) {
+            row.classList.add('highlight');
+        }
+    });
+}
+
+function exportToExcel() {
+    const table = document.getElementById('scoreTable');
+    const workbook = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+    XLSX.writeFile(workbook, '成绩表.xlsx');
+}
+</script>
+
+</body>
+</html>
